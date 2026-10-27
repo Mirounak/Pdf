@@ -1,5 +1,34 @@
-Experiment 4: Inheritance (Generalization, Specialization & Polymorphism) 
-1.  Create a new file Forms.php containing the definitions of two classes: Square and Triangle, each with a $color property initialized with the string 'black'. 2.  Both classes should include a method to read the value of the $color property (getColor()). 3.  Each class must implement a specific getArea() method: o  Square
-: pow($length, 2) o  Triangle
-: 0.5 * $base * $height 4.  Create a new abstract class named Shape that groups together common information from both classes; the property $color and the method getColor(). 5.  Since Shape is not meant to be instantiated, declare it as abstract. 6.  Add a new class named Circle that extends Shape. Instantiate it and call its getColor() and getArea()
- methods. 7.  Since all subclasses implement their own version of getArea(), declare getArea() as an abstract method in Shape. 8.  Implement the getArea() method in Circle using the formula: pi() * pow($radius, 2
+import sympy as sp
+
+x = sp.symbols('x')
+f = sp.sympify(input("أدخل الدالة f(x): "))
+df = sp.diff(f, x)
+
+x0 = float(input("قيمة البداية x0: "))
+tol = float(input("أدخل نسبة السماحية (Tolerance مثل 1e-6): "))
+
+max_iter = 1000  # حد أقصى للتكرارات لمنع الدوران اللانهائي
+i = 0
+
+while i < max_iter:
+    fx = float(f.subs(x, x0))
+    dfx = float(df.subs(x, x0))
+    
+    if dfx == 0:
+        print("خطأ: المشتقة تساوي صفراً!")
+        break
+        
+    x_next = x0 - fx / dfx
+    i += 1
+    
+    print(f"التكرار {i}: {x_next}")
+    
+    # شرط التوقف: إذا كان الفرق أصغر من السماحية المطلوبة
+    if abs(x_next - x0) < tol:
+        print("\nتم الوصول للتقارب المطلوب!")
+        x0 = x_next
+        break
+        
+    x0 = x_next
+
+print(f"الجذر التقريبي النهائي هو: {x0}")
